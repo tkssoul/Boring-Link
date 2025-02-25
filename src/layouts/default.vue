@@ -61,7 +61,6 @@ const route = useRoute();
 // 背景媒体映射
 const backgrounds: Record<string, Background> = {
   "/": {
-    // src: new URL("/images/computer.mp4", import.meta.url).href,
     src: new URL("/images/kgc67-6sgw2.mp4", import.meta.url).href,
   },
   "/my-works": {

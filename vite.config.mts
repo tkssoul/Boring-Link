@@ -15,10 +15,16 @@ import { fileURLToPath, URL } from "node:url";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    VueRouter({
-      dts: "src/typed-router.d.ts",
+    Vue({
+      template: { transformAssetUrls },
     }),
-    Layouts(),
+    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
+    Vuetify({
+      autoImport: true,
+      styles: {
+        configFile: "src/styles/settings.scss",
+      },
+    }),
     AutoImport({
       imports: [
         "vue",
@@ -35,16 +41,6 @@ export default defineConfig({
     Components({
       dts: "src/components.d.ts",
     }),
-    Vue({
-      template: { transformAssetUrls },
-    }),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
-    Vuetify({
-      autoImport: true,
-      styles: {
-        configFile: "src/styles/settings.scss",
-      },
-    }),
     Fonts({
       google: {
         families: [
@@ -55,6 +51,11 @@ export default defineConfig({
         ],
       },
     }),
+    Layouts(),
+    VueRouter({
+      dts: "src/typed-router.d.ts",
+    }),
+
     // 添加 gzip 压缩插件
     compression({
       verbose: true,
@@ -73,6 +74,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@/assets": fileURLToPath(new URL("./src/assets", import.meta.url)),
+      "@/components": fileURLToPath(
+        new URL("./src/components", import.meta.url)
+      ),
     },
     extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
   },
@@ -96,13 +101,13 @@ export default defineConfig({
         // 根据包名分块
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
+            // 将所有的 Vue 相关依赖打包成一个大包
+            if (id.includes("vue") || id.includes("vuetify")) {
+              return "vue-vendor";
+            }
             // Echarts 相关依赖单独打包
             if (id.includes("echarts") || id.includes("zrender")) {
               return "echarts-vendor";
-            }
-            // 将 Vue 相关依赖打包到一起
-            if (id.includes("vue") || id.includes("vuetify")) {
-              return "vue-vendor";
             }
             // 将动画相关依赖打包到一起
             if (id.includes("gsap")) {
@@ -132,7 +137,7 @@ export default defineConfig({
       },
       treeshake: {
         // 确保 tree shaking 生效
-        moduleSideEffects: true,
+        moduleSideEffects: false,
         // 去除无用的代码
         tryCatchDeoptimization: false,
         // 确保 proper dead code elimination
@@ -159,6 +164,9 @@ export default defineConfig({
         if_return: true,
         // 优化 if 中的条件判断
         collapse_vars: true,
+      },
+      mangle: {
+        toplevel: true, // 尝试压缩顶层变量
       },
     },
   },
