@@ -92,11 +92,6 @@ const websites = ref([
   },
 ]);
 
-// 添加打开链接的方法
-const openLink = (url: string) => {
-  window.open(url, "_blank");
-};
-
 // 修改遮罩层动画
 const overlayEnter = (el: Element) => {
   gsap.fromTo(

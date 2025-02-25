@@ -70,6 +70,11 @@ defineExpose({
   MyWorks,
 });
 
+// 添加打开链接的方法
+const openLink = (url: string) => {
+  window.open(url, "_blank");
+};
+
 const blogs = ref([
   {
     title: "利用GSAP简单实现页面横向背景平滑无缝切换",
