@@ -74,10 +74,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-      "@/assets": fileURLToPath(new URL("./src/assets", import.meta.url)),
-      "@/components": fileURLToPath(
-        new URL("./src/components", import.meta.url)
-      ),
     },
     extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
   },
@@ -137,7 +133,7 @@ export default defineConfig({
       },
       treeshake: {
         // 确保 tree shaking 生效
-        moduleSideEffects: false,
+        moduleSideEffects: true,
         // 去除无用的代码
         tryCatchDeoptimization: false,
         // 确保 proper dead code elimination
