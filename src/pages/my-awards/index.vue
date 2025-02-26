@@ -1,5 +1,36 @@
 <template>
   <div>
+    <!-- 首页 section -->
+    <div class="h-screen bg-black w-100 index-wrapper">
+      <div class="computer-container">
+        <v-img class="engine" src="/images/工程.svg" width="200" />
+
+        <!-- SVG 容器 - 使用新的渐变尾巴效果 -->
+        <svg class="motion-path" viewBox="40 40 220 220">
+          <!-- 路径 (参考用，可设为不可见) -->
+          <path
+            id="circle-path"
+            d="M150,50 a100,100 0 1,1 -0.1,0 z"
+            fill="none"
+            stroke="rgba(255,255,255,0.5)"
+            stroke-width="2"
+          />
+
+          <!-- 光点 -->
+          <circle id="glowing-dot" cx="0" cy="0" r="5" fill="#FF8709" />
+
+          <!-- 轨迹尾巴 (使用渐变) -->
+        </svg>
+      </div>
+
+      <!-- 文本部分 -->
+      <div class="d-flex flex-column align-center index-text">
+        <h1 class="text-4xl text-white">我的创造</h1>
+        <h1 class="text-4xl text-white">从这里开始</h1>
+      </div>
+    </div>
+
+    <!-- 项目展示部分 -->
     <section
       v-for="(website, i) in websites"
       :key="i"
@@ -40,6 +71,7 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
 defineOptions({
   name: "MyAwards",
@@ -47,23 +79,10 @@ defineOptions({
   icon: "mdi-medal",
 });
 
-// 注册 ScrollTrigger 插件
-gsap.registerPlugin(ScrollTrigger);
+// 注册插件
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 const websites = ref([
-  {
-    title: "占位",
-    label: "小程序",
-    description:
-      "基于Vue开发的在线文档系统，支持Markdown格式编辑和预览，具有文档版本控制、协作编辑、实时预览等功能，适合团队文档管理使用。",
-    image: "/images/bugatti-chiron.webp",
-    link: "https://docs.example.com",
-    deviceImage: {
-      src: "/images/MacBook Pro深黑色.png",
-      height: "75vh",
-      width: "auto",
-    },
-  },
   {
     title: "耘仓新平台",
     label: "网站",
@@ -82,7 +101,7 @@ const websites = ref([
     label: "小程序",
     description:
       "专注于人才招聘与求职的微信小程序平台，为企业和求职者提供便捷的沟通渠道，支持在线简历投递、职位发布、即时沟通等功能。",
-    image: "/images/深极_手机.png",
+    image: "/images/深极_手机.webp",
     link: "https://github.com/your-mall-project",
     deviceImage: {
       src: "/images/iPhone 16 Pro.webp",
@@ -92,40 +111,12 @@ const websites = ref([
   },
 ]);
 
-// 修改遮罩层动画
-const overlayEnter = (el: Element) => {
-  gsap.fromTo(
-    el,
-    { opacity: 0 },
-    {
-      opacity: 1,
-      duration: 0.2,
-      ease: "power1.out",
-      clearProps: "all", // 动画结束后清除属性
-    }
-  );
-};
-
-const overlayLeave = (el: Element, done: () => void) => {
-  gsap.to(el, {
-    opacity: 0,
-    duration: 0.2,
-    ease: "power1.in",
-    onComplete: done,
-  });
-};
-
 // 为每个 section 添加背景
-const bgPics = [
-  "/images/lamborghini.webp",
-  "/images/纯黑.webp",
-  "/images/纯白.jpeg",
-];
+const bgPics = ["/images/纯黑.webp", "/images/纯白.jpeg"];
 
 // 判断背景是否为深色
 const isDarkBg = (index: number) => {
   // 根据背景图片确定使用深色还是浅色文本
-  // 这里简单根据图片路径判断，实际项目可能需要更复杂的逻辑
   const bgPath = bgPics[index];
   return (
     bgPath.includes("纯黑") ||
@@ -143,15 +134,66 @@ const getRatio = (el: HTMLElement): number =>
   window.innerHeight / (window.innerHeight + el.offsetHeight);
 
 onMounted(() => {
+  // 第一部分文本动画
+  gsap.set(".index-text", { opacity: 0 });
+  gsap.to(".index-text", {
+    opacity: 1,
+    scrollTrigger: {
+      trigger: ".index-wrapper",
+      pin: true,
+      start: "top top",
+      end: "bottom top",
+      scrub: 0.1,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  // 光电环绕动画
+  const glowingDot = document.getElementById("glowing-dot");
+
+  if (glowingDot) {
+    // 创建光点和尾巴动画
+    const tl = gsap.timeline({ repeat: -1 });
+
+    // 光点运动
+    tl.to(glowingDot, {
+      motionPath: {
+        path: "#circle-path",
+        align: "#circle-path",
+        alignOrigin: [0.5, 0.5],
+        autoRotate: true,
+      },
+      duration: 10,
+      ease: "linear",
+    });
+
+    // 光点脉冲效果
+    gsap.to(glowingDot, {
+      r: 8,
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+
+    // 发光效果
+    gsap.to(glowingDot, {
+      filter: "drop-shadow(0 0 10px #FF8709)",
+      duration: 1.5,
+      repeat: -1,
+      yoyo: true,
+    });
+  }
+
   // 主要动画逻辑
   gsap.utils.toArray<Section>("section").forEach((section, i) => {
     // 获取背景元素
     section.bg = section.querySelector<HTMLElement>(".bg");
-    console.log("section.bg = ", section.bg);
     if (section.bg) {
       // 设置随机背景图片
       section.bg.style.backgroundImage = `url(${bgPics[i]})`;
     }
+
     // 创建滚动触发的背景动画
     gsap.fromTo(
       section.bg,
@@ -168,7 +210,7 @@ onMounted(() => {
           start: () => (i ? "top bottom" : "top top"),
           end: "bottom top",
           scrub: true,
-          invalidateOnRefresh: true, // 使其具有响应性
+          invalidateOnRefresh: true,
         },
       }
     );
@@ -367,5 +409,40 @@ section {
   .image-wrapper {
     width: 90%;
   }
+}
+
+.computer-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.engine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.motion-path {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+#glowing-dot {
+  filter: drop-shadow(0 0 8px #ff8709);
+}
+
+.index-text {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>

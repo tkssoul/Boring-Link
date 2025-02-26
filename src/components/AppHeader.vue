@@ -1,25 +1,28 @@
 <template>
   <div class="nav-container">
-    <svg
-      width="100"
-      height="30"
-      xmlns="http://www.w3.org/2000/svg"
-      class="svg-icon position-fixed"
-      @click="scrollToTop"
-    >
-      <text
-        x="20%"
-        y="50%"
-        dominant-baseline="middle"
-        text-anchor="middle"
-        font-family="Helvetica, Arial, sans-serif"
-        font-size="24"
-        font-weight="bold"
-        fill="white"
+    <div class="icon-wrapper position-fixed d-flex align-center justify-center">
+      <svg
+        width="50"
+        height="50"
+        xmlns="http://www.w3.org/2000/svg"
+        class="svg-icon position-absolute"
+        @click="scrollToTop"
       >
-        BL
-      </text>
-    </svg>
+        <text
+          x="50%"
+          y="50%"
+          dominant-baseline="central"
+          text-anchor="middle"
+          font-family="Helvetica, Arial, sans-serif"
+          font-size="24"
+          font-weight="bold"
+          fill="white"
+        >
+          BL
+        </text>
+      </svg>
+    </div>
+
     <v-breadcrumbs bg-color="rgba(0,0,0,0)">
       <div v-for="(item, index) in navItems">
         <v-breadcrumbs-item
@@ -93,16 +96,31 @@ const scrollToTop = () => {
 };
 </script>
 
-<style scoped>
+<style scoped>  
 .svg-icon {
-  left: 16px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
 }
 
 .svg-icon:hover {
   cursor: pointer;
 }
 
+.icon-wrapper {
+  height: 50px;
+  width: 50px;
+  border: 0.1px solid black;
+  border-radius: 25px;
+  position: fixed;
+  background-color: black;
+  opacity: 0.8;
+  left: 16px;
+}
+
 .nav-container {
+  background-color: black;
+  opacity: 0.8;
   z-index: 999;
   font-size: 12px;
   display: flex;

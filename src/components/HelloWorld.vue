@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-img fill-height flex-fill align-center justify-center">
+  <div class="bg-img flex-fill align-center justify-center">
     <v-container class="fill-height">
       <v-responsive
         class="d-flex align-center justify-center fill-height mx-auto text-center"
@@ -7,7 +7,7 @@
       >
         <v-avatar size="200">
           <v-img
-            class=" bg-surface-variant mx-auto"
+            class="bg-surface-variant mx-auto"
             aspect-ratio="1/1"
             lazy-src="/images/hero.webp"
             src="/images/hero.webp"
@@ -38,7 +38,9 @@
 
 <style scoped>
 .bg-img {
-  min-height: 100vh;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 100%;
   display: flex;
   align-items: center;
