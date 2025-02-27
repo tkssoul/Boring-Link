@@ -56,7 +56,7 @@
     ]
   },
   "index.html": {
-    "file": "assets/index.CoZPzxLR.js",
+    "file": "assets/index.Da2GlGs6.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -116,7 +116,7 @@
     ]
   },
   "src/pages/my-awards/index.vue": {
-    "file": "assets/page-my-awards.D7nlQula.js",
+    "file": "assets/page-my-awards.BhpGAQfd.js",
     "name": "page-my-awards",
     "src": "src/pages/my-awards/index.vue",
     "isDynamicEntry": true,
@@ -126,7 +126,7 @@
       "_page-index.vue_vue_type_script_setup_true_lang.ts.kWT3FGQf.js"
     ],
     "css": [
-      "assets/page-my-awards.CkFdllF9.css"
+      "assets/page-my-awards.CrI_2se7.css"
     ]
   },
   "src/pages/my-skills/index.vue": {

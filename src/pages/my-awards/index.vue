@@ -69,9 +69,16 @@
           alt="设备图片"
           class="device-image position-relative"
           cover
+          :lazy-src="website.deviceImage.src"
         />
 
-        <v-img class="inside-image" :src="website.image" cover width="100%" />
+        <v-img
+          class="inside-image"
+          :src="website.image"
+          cover
+          width="100%"
+          :lazy-src="website.deviceImage.src"
+        />
       </div>
     </section>
   </div>
@@ -113,7 +120,7 @@ const websites = ref([
     image: "/images/深极_手机.webp",
     link: "https://github.com/your-mall-project",
     deviceImage: {
-      src: "/images/iPhone 16 Pro.webp",
+      src: "/images/iPhone 16 Pro-横.webp",
       height: "75vh",
       width: "auto",
     },
@@ -123,18 +130,37 @@ const websites = ref([
     label: "App",
     description:
       "专业的宠物健康管理平台，提供宠物档案管理、疫苗接种提醒、在线问诊等功能。结合AI技术实现宠物疾病初步诊断，帮助宠物主人更好地照顾自己的宠物。",
-    image: "/images/米宠_手机.png",
+    image: "/images/米宠_手机.webp",
     link: "https://github.com/your-mall-project",
     deviceImage: {
-      src: "/images/iPhone 16 Pro.png",
+      src: "/images/iPhone 16 Pro.webp",
       height: "auto",
-      width: "40vw",
+      width: "28vw",
     },
   },
 ]);
 
 // 为每个 section 添加背景
 const bgPics = ["/images/纯黑.webp", "/images/纯白.jpeg", "/images/纯白.jpeg"];
+
+// 图片预加载函数
+const preloadImages = (imageUrls: string[]): Promise<void[]> => {
+  const promises = imageUrls.map((url) => {
+    return new Promise<void>((resolve, reject) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        resolve();
+      };
+      img.onerror = () => {
+        // 即使加载失败也resolve，不影响其他图片的加载
+        resolve();
+      };
+    });
+  });
+
+  return Promise.all(promises);
+};
 
 // 判断背景是否为深色
 const isDarkBg = (index: number) => {
@@ -155,7 +181,26 @@ interface Section extends HTMLElement {
 const getRatio = (el: HTMLElement): number =>
   window.innerHeight / (window.innerHeight + el.offsetHeight);
 
-onMounted(() => {
+onMounted(async () => {
+  // 收集所有需要预加载的图片
+  const imagesToPreload = [
+    // 背景图片
+    ...bgPics,
+    // 设备图片
+    ...websites.value.map((web) => web.deviceImage.src),
+    // 内容图片
+    ...websites.value.map((web) => web.image),
+  ];
+
+  // 开始预加载所有图片
+  await preloadImages(imagesToPreload);
+
+  // 在图片预加载完成后初始化动画
+  initializeAnimations();
+});
+
+// 将所有动画初始化逻辑移到单独的函数
+const initializeAnimations = () => {
   // 第一部分文本动画
   gsap.set(".index-text", { opacity: 0 });
   gsap.to(".index-text", {
@@ -243,17 +288,17 @@ onMounted(() => {
       // 初始化位置和动画
       if (i === 2) {
         gsap.set(imageWrapper, {
-          y: "-100vh",
+          y: "50vh",
           opacity: 0,
         });
         gsap.to(imageWrapper, {
-          y: "0",
+          y: "-50vh",
           opacity: 1,
           ease: "power2.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 80%",
-            end: "bottom bottom",
+            start: "top bottom",
+            end: "max",
             scrub: 1,
             invalidateOnRefresh: true,
           },
@@ -328,7 +373,7 @@ onMounted(() => {
       });
     }
   });
-});
+};
 </script>
 
 <style scoped>
@@ -394,6 +439,7 @@ section {
 }
 
 .image-wrapper {
+  margin: 0 auto;
   height: fit-content;
   width: 50%;
   z-index: 1;
