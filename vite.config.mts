@@ -88,6 +88,9 @@ export default defineConfig({
     },
   },
   build: {
+    // 指定输出目录
+    outDir: "docs", // 可以改成任意路径，例如 '../dist' 或 '/opt/homebrew/var/www/boringlink_dist'
+
     // 确保摇树优化生效
     target: "esnext",
     rollupOptions: {
