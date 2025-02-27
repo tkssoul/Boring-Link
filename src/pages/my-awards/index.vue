@@ -35,15 +35,24 @@
       v-for="(website, i) in websites"
       :key="i"
       :class="i % 2 === 0 ? 'even-section' : 'odd-section'"
+      class="overflow-hidden"
     >
       <div class="bg"></div>
 
       <!-- 文本部分 -->
-      <div
-        class="project-title"
-        :class="{ 'light-text': isDarkBg(i), 'dark-text': !isDarkBg(i) }"
-      >
-        {{ website.title }}
+      <div class="d-flex flex-column align-center w-25 flex-0-1 mx-2">
+        <div
+          class="project-title"
+          :class="{ 'light-text': isDarkBg(i), 'dark-text': !isDarkBg(i) }"
+        >
+          {{ website.title }}
+        </div>
+        <div
+          class="text-body-1"
+          :class="{ 'light-text': isDarkBg(i), 'dark-text': !isDarkBg(i) }"
+        >
+          {{ website.description }}
+        </div>
       </div>
 
       <!-- 图片部分 -->
@@ -109,10 +118,23 @@ const websites = ref([
       width: "auto",
     },
   },
+  {
+    title: "米宠宠物线上健康呵护系统",
+    label: "App",
+    description:
+      "专业的宠物健康管理平台，提供宠物档案管理、疫苗接种提醒、在线问诊等功能。结合AI技术实现宠物疾病初步诊断，帮助宠物主人更好地照顾自己的宠物。",
+    image: "/images/米宠_手机.png",
+    link: "https://github.com/your-mall-project",
+    deviceImage: {
+      src: "/images/iPhone 16 Pro.png",
+      height: "auto",
+      width: "40vw",
+    },
+  },
 ]);
 
 // 为每个 section 添加背景
-const bgPics = ["/images/纯黑.webp", "/images/纯白.jpeg"];
+const bgPics = ["/images/纯黑.webp", "/images/纯白.jpeg", "/images/纯白.jpeg"];
 
 // 判断背景是否为深色
 const isDarkBg = (index: number) => {
@@ -219,7 +241,24 @@ onMounted(() => {
     const imageWrapper = section.querySelector(`.image-wrapper-${i}`);
     if (imageWrapper) {
       // 初始化位置和动画
-      if (i % 2 === 0) {
+      if (i === 2) {
+        gsap.set(imageWrapper, {
+          y: "-100vh",
+          opacity: 0,
+        });
+        gsap.to(imageWrapper, {
+          y: "0",
+          opacity: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "bottom bottom",
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+      } else if (i % 2 === 0) {
         // 偶数索引 - 图片从右侧滑入
         gsap.set(imageWrapper, {
           x: "100%",
@@ -342,7 +381,7 @@ section {
 }
 
 .project-title {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 2px;
