@@ -30,33 +30,49 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "cnpm"
-      - name: Config npm registry
+          cache: "pnpm"
+
+      - name: Config pnpm registry
         run: |
-          npm config set registry https://registry.npmmirror.com
-          npm config set fetch-retries 3
-          npm config set fetch-retry-mintimeout 5000
-          npm config set fetch-retry-maxtimeout 120000
-      # 修改: 使用npm install代替npm ci，并添加--legacy-peer-deps
+          pnpm config set registry https://registry.npmmirror.com
+          pnpm config set @vuetify:registry https://registry.npmmirror.com
+          pnpm config set disturl https://npmmirror.com/mirrors/node
+          pnpm config set electron_mirror https://npmmirror.com/mirrors/electron/
+          pnpm config set sass_binary_site https://npmmirror.com/mirrors/node-sass
+          pnpm config set sharp_binary_host https://npmmirror.com/mirrors/sharp
+          pnpm config set sharp_libvips_binary_host https://npmmirror.com/mirrors/sharp-libvips
+          pnpm config set sqlite3_binary_site https://npmmirror.com/mirrors/sqlite3
+
       - name: Install dependencies
-        run: cnpm ci
+        run: pnpm install --no-frozen-lockfile --reporter=silent
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
+
       - name: Build
-        run: npm run build
+        run: pnpm run build
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist folder
           path: "./docs"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
