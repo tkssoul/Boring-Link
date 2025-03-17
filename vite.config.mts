@@ -14,6 +14,7 @@ import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/Boring-Link/",
   plugins: [
     Vue({
       template: { transformAssetUrls },
@@ -89,7 +90,7 @@ export default defineConfig({
   },
   build: {
     // 指定输出目录
-    outDir: "docs", // 可以改成任意路径，例如 '../dist' 或 '/opt/homebrew/var/www/boringlink_dist'
+    outDir: "docs",
 
     // 确保摇树优化生效
     target: "esnext",
