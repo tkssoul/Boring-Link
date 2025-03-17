@@ -35,6 +35,8 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+      - name: Config npm registry
+        run: npm config set registry https://registry.npmmirror.com
       - name: Install dependencies
         run: npm ci
       - name: Build
