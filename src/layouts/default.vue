@@ -8,13 +8,12 @@
       class="background-item"
     >
       <video
+        class="background-video"
         v-if="backgrounds[page].src.endsWith('.mp4')"
         preload="auto"
         autoplay
         muted
         loop
-        height="100%"
-        width="100%"
       >
         <source :src="backgrounds[page].src" type="video/mp4" />
       </video>
@@ -45,8 +44,6 @@
       </keep-alive>
     </router-view>
   </v-main>
-
-  <!-- <AppFooter /> -->
 </template>
 
 <script setup lang="ts">
@@ -152,6 +149,12 @@ onMounted(() => {
 
 .background-item {
   flex: 0 0 25%; /* 100% ÷ 4 */
+  height: 100%;
+}
+
+.background-video {
+  object-fit: cover;
+  width: 100%;
   height: 100%;
 }
 

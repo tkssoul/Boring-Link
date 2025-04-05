@@ -1,38 +1,13 @@
 <template>
-  <v-footer height="40" app>
-    <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-      <text
-        x="20%"
-        y="50%"
-        dominant-baseline="middle"
-        text-anchor="middle"
-        font-family="Helvetica, Arial, sans-serif"
-        font-size="24"
-        font-weight="bold"
-        fill="white"
-      >
-        BL
-      </text>
-    </svg>
-
+  <v-footer height="40" app class="footer-container">
     <div
-      class="text-caption text-disabled"
+      class="text-caption text-disabled d-flex ga-3"
       style="position: absolute; right: 16px"
     >
-      <a
-        class="text-decoration-none on-surface"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        联系我
-      </a>
+      <text>Email:2495830486@qq.com</text>
     </div>
   </v-footer>
 </template>
-
-<script setup lang="ts">
-
-</script>
 
 <style scoped lang="sass">
 .social-link :deep(.v-icon)
@@ -42,4 +17,16 @@
 
   &:hover
     color: rgba(25, 118, 210, 1)
+
+.footer-container
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100%
+  height: 40px
+  display: flex
+  justify-content: center
+  align-items: center
+  background-color: rgba(0, 0, 0, 0.5)
+  z-index: 999
 </style>
