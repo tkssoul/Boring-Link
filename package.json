@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@mdi/font": "7.4.47",
-    "@vuetify/types": "^3.0.0-beta.11",
     "core-js": "^3.37.1",
     "echarts": "^5.6.0",
+    "express": "^4.21.2",
     "gsap": "^3.12.7",
     "roboto-fontface": "*",
     "terser": "^5.38.2",
@@ -44,7 +44,7 @@
     "vite": "^5.4.10",
     "vite-plugin-vue-layouts": "^0.11.0",
     "vite-plugin-vuetify": "^2.0.3",
-    "vue-router": "^4.4.0",
+    "vue-router": "^4.5.0",
     "vue-tsc": "^2.1.10"
   }
 }

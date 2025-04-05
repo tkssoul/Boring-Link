@@ -14,7 +14,6 @@ import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/Boring-Link/",
   plugins: [
     Vue({
       template: { transformAssetUrls },
@@ -80,6 +79,13 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    cors: true,
+    proxy: {
+      "/api": {
+        target: "http://115.120.224.94:8080",
+        changeOrigin: true,
+      },
+    },
   },
   css: {
     preprocessorOptions: {
@@ -89,9 +95,6 @@ export default defineConfig({
     },
   },
   build: {
-    // 指定输出目录
-    outDir: "docs",
-
     // 确保摇树优化生效
     target: "esnext",
     rollupOptions: {
@@ -174,4 +177,5 @@ export default defineConfig({
     // 确保 tree shaking 生效
     treeShaking: true,
   },
+  publicDir: "public",
 });
