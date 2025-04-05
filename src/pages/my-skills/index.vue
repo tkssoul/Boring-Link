@@ -62,7 +62,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 const panels = ref([
   {
-    logo: "/images/logo/Vue.svg",
+    logo: "images/logo/Vue.svg",
     logoColor: "#4FC08D",
     color: "#FFFFFF",
     labels: "Vue.js",
@@ -76,14 +76,14 @@ const panels = ref([
     ],
   },
   {
-    logo: "/images/logo/ArcoDesign.svg",
+    logo: "images/logo/ArcoDesign.svg",
     logoColor: "#2F54EB",
     color: "#061178",
     labels: "组件框架",
     content: ["Vuetify", "Arco Design", "ColorUI", "Element Plus"],
   },
   {
-    logo: "/images/logo/GSAP.svg",
+    logo: "images/logo/GSAP.svg",
     logoColor: "#88ce02",
     color: "#333333",
     labels: "GSAP",

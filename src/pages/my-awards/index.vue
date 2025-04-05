@@ -97,10 +97,10 @@ const websites = ref([
     label: "网站",
     description:
       "基于Vue 3和Springboot的现代化农资交易平台，为农户和商家提供农业资材的在线交易服务。包含商品管理、订单处理、用户认证等功能，支持响应式设计。",
-    image: "/images/耘仓新平台.webp",
+    image: "images/耘仓新平台.webp",
     link: "https://tk-katharsis.us.kg",
     deviceImage: {
-      src: "/images/MacBook Pro.webp",
+      src: "images/MacBook Pro.webp",
       height: "75vh",
       width: "auto",
     },
@@ -110,10 +110,10 @@ const websites = ref([
     label: "小程序",
     description:
       "专注于人才招聘与求职的微信小程序平台，为企业和求职者提供便捷的沟通渠道，支持在线简历投递、职位发布、即时沟通等功能。",
-    image: "/images/深极_手机.webp",
+    image: "images/深极_手机.webp",
     link: "https://github.com/your-mall-project",
     deviceImage: {
-      src: "/images/iPhone 16 Pro.webp",
+      src: "images/iPhone 16 Pro.webp",
       height: "75vh",
       width: "auto",
     },
@@ -123,10 +123,10 @@ const websites = ref([
     label: "App",
     description:
       "专业的宠物健康管理平台，提供宠物档案管理、疫苗接种提醒、在线问诊等功能。结合AI技术实现宠物疾病初步诊断，帮助宠物主人更好地照顾自己的宠物。",
-    image: "/images/米宠_手机.png",
+    image: "images/米宠_手机.png",
     link: "https://github.com/your-mall-project",
     deviceImage: {
-      src: "/images/iPhone 16 Pro.png",
+      src: "images/iPhone 16 Pro.png",
       height: "auto",
       width: "40vw",
     },
@@ -134,7 +134,7 @@ const websites = ref([
 ]);
 
 // 为每个 section 添加背景
-const bgPics = ["/images/纯黑.webp", "/images/纯白.jpeg", "/images/纯白.jpeg"];
+const bgPics = ["images/纯黑.webp", "images/纯白.jpeg", "images/纯白.jpeg"];
 
 // 判断背景是否为深色
 const isDarkBg = (index: number) => {

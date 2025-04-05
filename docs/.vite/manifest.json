@@ -53,7 +53,7 @@
     ]
   },
   "index.html": {
-    "file": "assets/index.C05k2j2o.js",
+    "file": "assets/index.BNZhbTIB.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -113,7 +113,7 @@
     ]
   },
   "src/pages/my-awards/index.vue": {
-    "file": "assets/page-my-awards.Cqd9Pujh.js",
+    "file": "assets/page-my-awards.CHCWy0iB.js",
     "name": "page-my-awards",
     "src": "src/pages/my-awards/index.vue",
     "isDynamicEntry": true,
@@ -123,11 +123,11 @@
       "_page-index.vue_vue_type_script_setup_true_lang.ts.CMBBhV9R.js"
     ],
     "css": [
-      "assets/page-my-awards.CkFdllF9.css"
+      "assets/page-my-awards.B-Uwxznh.css"
     ]
   },
   "src/pages/my-skills/index.vue": {
-    "file": "assets/page-my-skills.CZ-Bl357.js",
+    "file": "assets/page-my-skills.CRo8UGUs.js",
     "name": "page-my-skills",
     "src": "src/pages/my-skills/index.vue",
     "isDynamicEntry": true,
@@ -138,11 +138,11 @@
       "_gsap-vendor.CKvSo_C2.js"
     ],
     "css": [
-      "assets/page-my-skills.oXIeeFAK.css"
+      "assets/page-my-skills.CrTj_PF_.css"
     ]
   },
   "src/pages/my-works/index.vue": {
-    "file": "assets/page-my-works.BpC_MSxF.js",
+    "file": "assets/page-my-works.Bu9p_YhM.js",
     "name": "page-my-works",
     "src": "src/pages/my-works/index.vue",
     "isDynamicEntry": true,
@@ -151,7 +151,7 @@
       "_page-index.vue_vue_type_script_setup_true_lang.ts.CMBBhV9R.js"
     ],
     "css": [
-      "assets/page-my-works.COhXkgdV.css"
+      "assets/page-my-works.XLVsPKWE.css"
     ]
   }
 }
