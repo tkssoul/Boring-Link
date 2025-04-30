@@ -96,7 +96,7 @@ const scrollToTop = () => {
 };
 </script>
 
-<style scoped>  
+<style scoped>
 .svg-icon {
   left: 50%;
   transform: translate(-50%, -50%);
@@ -119,7 +119,6 @@ const scrollToTop = () => {
 }
 
 .nav-container {
-  background-color: black;
   opacity: 0.8;
   z-index: 999;
   font-size: 12px;

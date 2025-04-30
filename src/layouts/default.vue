@@ -1,41 +1,49 @@
 <template>
-  <AppHeader />
-  <!-- 背景容器 -->
-  <div class="background-container">
-    <div
-      v-for="(page, index) in pageOrder"
-      :key="index"
-      class="background-item"
-    >
-      <video
-        class="background-video"
-        v-if="backgrounds[page].src.endsWith('.mp4')"
-        preload="auto"
-        autoplay
-        muted
-        loop
-      >
-        <source :src="backgrounds[page].src" type="video/mp4" />
-      </video>
-      <v-img
-        v-else
-        preload
-        :src="backgrounds[page].src"
-        lazy-src="/images/windows-11.webp"
-        cover
-        height="100%"
-        width="100%"
-        alt="背景图片"
-      />
-    </div>
-  </div>
-
+  <!-- <AppHeader /> -->
   <!-- 内容层 -->
+
+  <!-- 翻页器 -->
+  <v-fade-transition>
+    <div v-show="showLeftTurner" class="page-turner left-0">
+      <div class="turner-content-wrapper left-0">
+        <v-icon icon="mdi-chevron-left" size="x-large" color="primary"></v-icon>
+      </div>
+    </div>
+  </v-fade-transition>
+
+  <v-fade-transition>
+    <div v-show="showRightTurner" class="page-turner right-0">
+      <div class="turner-content-wrapper right-0">
+        <v-icon
+          icon="mdi-chevron-right"
+          size="x-large"
+          color="primary"
+        ></v-icon>
+      </div>
+    </div>
+  </v-fade-transition>
+
+  <!-- 左侧触发区 -->
+  <div
+    class="trigger-area left-0"
+    @click="navigateToPreviousPage"
+    @mouseover="showLeftTurner = true"
+    @mouseout="showLeftTurner = false"
+  ></div>
+
+  <!-- 右侧触发区 -->
+  <div
+    class="trigger-area right-0"
+    @click="navigateToNextPage"
+    @mouseover="showRightTurner = true"
+    @mouseout="showRightTurner = false"
+  ></div>
+
   <v-main>
     <router-view v-slot="{ Component }">
       <keep-alive>
         <div class="page-wrapper fill-height">
-          <Transition @enter="enter" @leave="leave" mode="out-in">
+          <Transition>
             <div>
               <component :is="Component" />
             </div>
@@ -48,114 +56,93 @@
 
 <script setup lang="ts">
 import gsap from "gsap";
-
-interface Background {
-  src: string;
-}
+import { ref, watch, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
-
-// 背景媒体映射
-const backgrounds: Record<string, Background> = {
-  "/": {
-    src: new URL("/images/kgc67-6sgw2.mp4", import.meta.url).href,
-  },
-  "/my-works": {
-    src: new URL("/images/lamborghini.webp", import.meta.url).href,
-  },
-  "/my-skills": {
-    src: new URL("/images/bugatti-chiron.webp", import.meta.url).href,
-  },
-  "/my-awards": {
-    src: new URL("/images/apple-logo.webp", import.meta.url).href,
-  },
-};
-
-// 预加载资源
-const preloadResources = () => {
-  Object.values(backgrounds).forEach((background) => {
-    if (background.src.endsWith(".webp")) {
-      // 图片预加载
-      const img = new Image();
-      img.src = background.src;
-    } else if (background.src.endsWith(".mp4")) {
-      // 视频预加载
-      const video = document.createElement("video");
-      video.src = background.src;
-      video.preload = "auto";
-      video.load();
-    }
-  });
-};
+const router = useRouter();
 
 // 导航顺序映射
-const pageOrder = ["/", "/my-works", "/my-skills", "/my-awards"];
+const pageOrder = ["/", "/my-blogs", "/my-skills", "/my-projects"];
 
-// 修改路由监听方式
+// 控制翻页器显示状态
+const showLeftTurner = ref(false);
+const showRightTurner = ref(false);
+
+// 获取当前页面在导航顺序中的索引
+const getCurrentPageIndex = () => {
+  return pageOrder.indexOf(route.path);
+};
+
+// 导航到上一个页面
+const navigateToPreviousPage = () => {
+  const currentIndex = getCurrentPageIndex();
+  if (currentIndex > 0) {
+    router.push(pageOrder[currentIndex - 1]);
+  } else {
+    // 如果当前是第一个页面，则导航到最后一个页面（循环）
+    router.push(pageOrder[pageOrder.length - 1]);
+  }
+};
+
+// 导航到下一个页面
+const navigateToNextPage = () => {
+  const currentIndex = getCurrentPageIndex();
+  if (currentIndex < pageOrder.length - 1) {
+    router.push(pageOrder[currentIndex + 1]);
+  } else {
+    // 如果当前是最后一个页面，则导航到第一个页面（循环）
+    router.push(pageOrder[0]);
+  }
+};
+
+// 当路由变化时隐藏翻页器
 watch(
   () => route.path,
-  (toPath) => {
-    const toIndex = pageOrder.indexOf(toPath);
-
-    gsap.to(".background-item", {
-      x: `-${toIndex * 100}%`,
-      duration: 0.8,
-      ease: "power1.inOut",
-    });
+  () => {
+    showLeftTurner.value = false;
+    showRightTurner.value = false;
   }
 );
-
-// 页面切换动画
-const leave = (el: Element) => {
-  gsap.to(el, {
-    duration: 0.8,
-    opacity: 0,
-    ease: "power1.inOut",
-  });
-};
-
-const enter = (el: Element) => {
-  gsap.set(el, {
-    opacity: 0,
-    x: "0%",
-  });
-  gsap.to(el, {
-    opacity: 1,
-    x: "0%",
-    duration: 1,
-    ease: "power1.in",
-  });
-};
-
-onMounted(() => {
-  gsap.set(".background-item", {
-    x: `-${pageOrder.indexOf(route.path) * 100}%`,
-  });
-
-  preloadResources();
-});
 </script>
 
 <style scoped>
-.background-container {
+.page-turner {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  height: calc(100vh - 40px);
+  width: 80px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  pointer-events: auto; /* 确保元素可点击 */
+}
+
+.left-turner:hover {
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), transparent);
+}
+
+.right-turner:hover {
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.turner-content-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trigger-area {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 400%; /* 4个页面 */
-  height: 100%;
-  display: flex;
-  /* z-index: -1; */
-}
-
-.background-item {
-  flex: 0 0 25%; /* 100% ÷ 4 */
-  height: 100%;
-}
-
-.background-video {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
+  height: 100vh;
+  width: 80px; /* 增加触发区域宽度 */
+  z-index: 9999; /* 增加优先级 */
 }
 
 .page-wrapper {

@@ -5,6 +5,7 @@ import Fonts from "unplugin-fonts/vite";
 import Layouts from "vite-plugin-vue-layouts";
 import Vue from "@vitejs/plugin-vue";
 import VueRouter from "unplugin-vue-router/vite";
+import vueDevTools from "vite-plugin-vue-devtools"; 
 import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import compression from "vite-plugin-compression";
 
@@ -14,11 +15,11 @@ import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/Boring-Link/",
   plugins: [
     Vue({
       template: { transformAssetUrls },
     }),
+    vueDevTools(),
     // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
     Vuetify({
       autoImport: true,
@@ -56,14 +57,13 @@ export default defineConfig({
     VueRouter({
       dts: "src/typed-router.d.ts",
     }),
-
-    // 添加 gzip 压缩插件
+    // 添加brotli 压缩插件
     compression({
       verbose: true,
       disable: false,
-      threshold: 5120,
-      algorithm: "gzip",
-      ext: ".gz",
+      threshold: 10240,
+      algorithm: "brotliCompress",
+      ext: ".br",
     }),
   ],
   define: {
@@ -90,7 +90,7 @@ export default defineConfig({
   },
   build: {
     // 指定输出目录
-    outDir: "docs", // 可以改成任意路径，例如 '../dist' 或 '/opt/homebrew/var/www/boringlink_dist'
+    outDir: "docs",
 
     // 确保摇树优化生效
     target: "esnext",

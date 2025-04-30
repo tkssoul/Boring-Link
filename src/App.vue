@@ -5,5 +5,11 @@
 </template>
 
 <script lang="ts" setup>
-  //
+//
 </script>
+
+<style scoped>
+body {
+  background-color: black;
+}
+</style>
