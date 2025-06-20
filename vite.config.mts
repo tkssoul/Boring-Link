@@ -5,7 +5,7 @@ import Fonts from "unplugin-fonts/vite";
 import Layouts from "vite-plugin-vue-layouts";
 import Vue from "@vitejs/plugin-vue";
 import VueRouter from "unplugin-vue-router/vite";
-import vueDevTools from "vite-plugin-vue-devtools"; 
+import vueDevTools from "vite-plugin-vue-devtools";
 import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import compression from "vite-plugin-compression";
 
@@ -15,6 +15,7 @@ import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/Boring-Link/",
   plugins: [
     Vue({
       template: { transformAssetUrls },
