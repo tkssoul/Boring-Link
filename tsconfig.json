@@ -1,0 +1,19 @@
+{
+  "files": [],
+  "compilerOptions": {
+    "types": [
+      "node",
+      "@vue/reactivity",
+      "@vue/runtime-dom",
+      "@vuetify/types"
+    ]
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}
